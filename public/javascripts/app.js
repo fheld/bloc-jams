@@ -309,8 +309,17 @@ var changeAlbumView = function(album) {
      controller: 'Collection.controller',
      templateUrl: '/templates/collection.html'
    });
+
+   
+   $stateProvider.state('album', {
+     url: '/album',
+     templateUrl: '/templates/album.html',
+     controller: 'Album.controller'
+   });
    
  }]);
+
+
  
 
  blocJams.controller('Landing.controller', ['$scope', function($scope) {
@@ -340,6 +349,40 @@ var changeAlbumView = function(album) {
      $scope.albums.push(angular.copy(albumPicasso));
    }
  }]);
+
+   blocJams.controller('Album.controller', ['$scope', function($scope) {
+   $scope.album = angular.copy(albumPicasso);
+   var hoveredSong = null;
+   var playingSong = null;
+ 
+   $scope.onHoverSong = function(song) {
+     hoveredSong = song;
+   };
+ 
+   $scope.offHoverSong = function(song) {
+     hoveredSong = null;
+   };
+      $scope.getSongState = function(song) {
+     if (song === playingSong) {
+       return 'playing';
+     }
+     else if (song === hoveredSong) {
+       return 'hovered';
+     }
+     return 'default';
+   };
+
+
+    $scope.playSong = function(song) {
+      playingSong = song;
+    };
+ 
+    $scope.pauseSong = function(song) {
+      playingSong = null;
+    }
+ }]);
+
+
 });
 
 ;require.register("scripts/collection", function(exports, require, module) {
